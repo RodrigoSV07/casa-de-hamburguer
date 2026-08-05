@@ -24,21 +24,31 @@ const login = () => {
       className="flex h-screen items-center justify-center bg-[#161410]"
       onSubmit={handleSubmit}
     >
-      <div className="flex flex-col items-center justify-center gap-2">
+      <div className="flex flex-col justify-center gap-2">
         <Link to="/" viewTransition>
-          <img src="public/logo (1).svg" alt="" className="mb-4 h-21.5 w-25" />
+          <img
+            src="public/logo (1).svg"
+            alt=""
+            className="mx-auto mb-4 h-21.5 w-25"
+          />
         </Link>
 
-        <Input
-          type="email"
-          placeholder="E-mail"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-          type="password"
-          placeholder="Senha"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="mb-4 flex flex-col gap-2">
+          <Input
+            type="email"
+            placeholder="E-mail"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="Senha"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        {/* <p className="text-left text-sm font-bold text-red-500">
+          Usuário não encontrado
+        </p> */}
 
         <Buttom title="Login" variant="default" />
 
