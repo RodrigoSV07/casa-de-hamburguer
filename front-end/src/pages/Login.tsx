@@ -6,17 +6,35 @@ import Buttom from "../components/Buttom";
 const login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await response.json();
-    console.log(data);
+    try {
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.status === 404) {
+        setError("Usuário não encontrado.");
+      }
+
+      if (response.status === 400) {
+        setError("Usuário e senha são Obrigatórias.");
+      }
+
+      if (response.status === 200) {
+        setError("");
+        const data = await response.json();
+        console.log(data);
+      }
+    } catch (errror) {
+      console.log(error);
+      return;
+    }
   }
 
   return (
@@ -44,11 +62,9 @@ const login = () => {
             placeholder="Senha"
             onChange={(e) => setPassword(e.target.value)}
           />
-        </div>
 
-        {/* <p className="text-left text-sm font-bold text-red-500">
-          Usuário não encontrado
-        </p> */}
+          <p className="text-left text-sm font-bold text-red-500">{error}</p>
+        </div>
 
         <Buttom title="Login" variant="default" />
 
