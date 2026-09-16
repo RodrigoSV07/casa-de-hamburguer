@@ -41,11 +41,20 @@ app.post("/register", async (req: Request, res:Response) => {
       return;
     }
 
+    const user = await prisma.user.findFirst({
+      where:{email: email},
+    })
+
+    if (user?.email) {
+      res.status(409).json({message: "E-mail já cadastrado"});
+      return;
+    }
+
     const newUser = await prisma.user.create({
       data: {name: name, email: email, password: password, cep: cep},
     });
 
-    res.json(newUser);
+    res.status(201).json(newUser);
 
   } catch (error) {
     res.status(500).json({message:"Erro no servidor"})
